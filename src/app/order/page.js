@@ -1,4 +1,6 @@
 "use client";
+
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const products = [
@@ -6,10 +8,10 @@ const products = [
   { id: 2, name: "Denim Jacket", price: 90, image: "/img2.jpg" },
   { id: 3, name: "Casual Chinos", price: 60, image: "/img3.jpg" },
   { id: 4, name: "Silk Scarf", price: 25, image: "/img4.jpg" },
-  // ... (copy same products from Shop for consistency)
+  // ... add the rest
 ];
 
-export default function OrderPage() {
+function OrderContent() {
   const searchParams = useSearchParams();
   const id = Number(searchParams.get("id"));
   const product = products.find((p) => p.id === id);
@@ -35,5 +37,13 @@ export default function OrderPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function OrderPage() {
+  return (
+    <Suspense fallback={<div className="p-10">Loading Order...</div>}>
+      <OrderContent />
+    </Suspense>
   );
 }
